@@ -24,10 +24,6 @@ def long(x, y, width, h, color):
     pygame.draw.rect(gameDisplay, color, [x, y, width, h])
 
 
-#Restart game
-def crash():
-    message_display('You crashed Respawn')
-
 #food
 def chop(thing_x, chop_y, chop_w, chop_h, color):
     pygame.draw.rect(gameDisplay, color, [thing_x, chop_y, chop_w, chop_h])
@@ -37,12 +33,6 @@ def interset(count):
     text=font.render("score: "+str(count), True, black)
     gameDisplay.blit(text,(0,0))
 
-
-#def message_display(text):
-#    largeText= pygame.font.Font('freesansbold.ttf', 50)
-#    TextSurf, TextRect = text_objects(text, largeText)
-#    TextRect.center = ((display_width/2),(display_height/2))
-#    gameDisplay.blit(TextSurf, TextRect)
 
 
 #snake location
@@ -136,9 +126,6 @@ def long_locate():
             thing_x =random.randrange(0,display_width-20,2)
             print("haaaaa")
 
-        #if x== thing_x and y==chop_h:  #why did they not work?
-        #    incre_w+=10
-        #    print("baaaa")
 
 
         #LOGIC FOR SNAKE COMING TOWARDS Y AXIS PART 1
