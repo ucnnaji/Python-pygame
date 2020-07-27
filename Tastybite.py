@@ -4,6 +4,11 @@ import random
 
 pygame.init()
 
+#sound effects
+pygame.mixer.music.load("Deep Mind - Jeremy Black.mp3")
+crash_sound=pygame.mixer.Sound("Mirror Shattering.wav")
+chop_sound=pygame.mixer.Sound("Eating-Sound.wav")
+
 
 display_width=500
 display_height=400
@@ -28,15 +33,57 @@ def long(x, y, width, h, color):
 def chop(thing_x, chop_y, chop_w, chop_h, color):
     pygame.draw.rect(gameDisplay, color, [thing_x, chop_y, chop_w, chop_h])
 
+#score
 def interset(count):
     font=pygame.font.SysFont(None, 25)
     text=font.render("score: "+str(count), True, black)
     gameDisplay.blit(text,(0,0))
+    
+def text_objects(text, font):
+    textSurface = font.render(text, True, black)
+    return textSurface, textSurface.get_rect()
+
+#introduction message
+def message_display(text):
+    largeText= pygame.font.Font('freesansbold.ttf', 50)
+    TextSurf, TextRect = text_objects(text, largeText)
+    TextRect.center = ((display_width/2),(display_height/2))
+    gameDisplay.blit(TextSurf, TextRect)
+
+    pygame.display.update()
+    
+#Game introduction
+def game_intro():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        #gameDisplay.blit(img,(250,250))
+
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf',100)
+        TextSurf, TextRect = text_objects("Tasty bite", largeText)
+        TextRect.center = ((display_width/2),(display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
+
+        pygame.display.update()
+        time.sleep(5)
+        clock.tick(20)
+
+        long_locate()
 
 
 
 #snake location
 def long_locate():
+    pygame.mixer.music.play(-1)
+
     x = 300
     y = 100
 
@@ -119,44 +166,52 @@ def long_locate():
         interset(contact)
 
 
-        if x==thing_x and y==chop_y :           #this happens in extremely rare cases hence my choice of 3
+        if x==thing_x and y==chop_y :           #this occurs less often 
+            pygame.mixer.Sound.play(chop_sound)
             incre_w+=2
             contact+=1
             chop_y=random.randrange(0,display_height-20,2)
             thing_x =random.randrange(0,display_width-20,2)
-            print("haaaaa")
+            
 
 
 
         #LOGIC FOR SNAKE COMING TOWARDS Y AXIS PART 1
-        if x+8==thing_x and y== chop_y-2 or x+6==thing_x and y==chop_y-4 or x+4==thing_x and y==chop_y-6 or x+2==thing_x and y==chop_y-8:                #new thinking
+        if x+8==thing_x and y== chop_y-2 or x+6==thing_x and y==chop_y-4 or x+4==thing_x and y==chop_y-6 or x+2==thing_x and y==chop_y-8:
+            pygame.mixer.Sound.play(chop_sound)
             incre_w +=2
             contact +=1
             chop_y=random.randrange(0,display_height-20,2)
             thing_x =random.randrange(0,display_width-20,2)   #food x axis
-            print (2)
+            
 
 
         #LOGIC FOR SNAKE COMING TOWARDS Axis PART 2
-        if x-8==thing_x and y== chop_y+2 or x-6==thing_x and y==chop_y+4 or x-4==thing_x and y==chop_y+6 or x-2==thing_x and y==chop_y+8  : #new thinking
+        if x-8==thing_x and y== chop_y+2 or x-6==thing_x and y==chop_y+4 or x-4==thing_x and y==chop_y+6 or x-2==thing_x and y==chop_y+8  :
+            pygame.mixer.Sound.play(chop_sound)
             incre_w +=2
             contact +=1
             chop_y=random.randrange(0,display_height-20,2)
             thing_x =random.randrange(0,display_width-20,2)
-            print (-2)
+            
 
 
         #LOGIC FOR OUT OF SCREEN
         if x > display_width or x<0:
+            pygame.mixer.Sound.play(crash_sound)
+            pygame.mixer.music.stop()
             long_locate()
             interset(contact)
         if y > display_height or y<0:
+            pygame.mixer.Sound.play(crash_sound)
+            pygame.mixer.music.stop()
             long_locate()
             interset(contact)
 
 
         pygame.display.update()
         clock.tick(60)
-long_locate()
+        
+game_intro()
 pygame.quit()
 quit()
