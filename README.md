@@ -6,9 +6,9 @@ Prerequisites
 3. Text editor
 
 Installing
-1. Download python from pygame.org/doanloads.
+1. Download python from pygame.org.
 2. Install python rar file or exe on your local machine,prefereably into your C drive.
-3. Download pygame from pygame.org/download
+3. Download pygame from www.pygame.org .
 4. Install pygame into PC or alternatively open the python command-line.
 5. Type "pip install pygame" into the command-line.
 6. Open the python IDE.
